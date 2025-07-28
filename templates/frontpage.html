@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME PAGE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="front.css">
+    <style>
+        /* Add basic styles for the chatbot */
+        #chatbot {
+            display: none; /* Start hidden */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: #ffcccb; /* Light pink background for the chatbot */
+            border: 1px solid #ff69b4; /* Pink border */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .msger-header {
+            background: #ff69b4; /* Darker pink for header */
+            color: white;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+
+        .msger-chat {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .msger-inputarea {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ff69b4; /* Pink border for input area */
+        }
+
+        .msger-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ff69b4; /* Pink border for input */
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .msger-send-btn {
+            background: #ff69b4; /* Pink button */
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .msg {
+            margin: 10px 0;
+        }
+
+        .msg.bubble {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .right-msg .msg-bubble {
+            background: #ff69b4; /* Pink for user messages */
+            color: white;
+            align-self: flex-end;
+        }
+
+        .left-msg .msg-bubble {
+            background: #ffe4e1; /* Light pink for bot messages */
+            color: black;
+            align-self: flex-start;
+        }
+
+        /* Chatbot Toggle Icon Styles */
+        #chatToggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff69b4; /* Pink background for the toggle */
+            border-radius: 50%;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #chatToggle .chat-text {
+            margin-left: 5px;
+            color: white; /* Text color */
+        }
+
+        /* Chatbot Close Button */
+        .chat-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            padding: 5px;
+        }
+
+        .chat-close-btn:hover {
+            color: #ff1493; /* Hot pink hover effect */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <input type="checkbox" id="toggler">
+        <label for="toggler" class="fas fa-bars"></label>
+        <a href="#" class="logo">AYURVEDA<span></span></a>
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="icons">
+            <a href="#" class="fas fa-heart"></a>
+            <a href="cart.html" class="fa fa-shopping-cart"></a>
+            <a href="sign.html" class="fas fa-user"></a>
+        </div>
+    </header>
+    
+    <!-- Background Video Section -->
+    <video autoplay muted loop id="background-video">
+        <source src="v.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <section class="home" id="home">
+        <div class="content">
+            <h3>AYURVEDA</h3>
+            <span>Learn more about your health</span>
+            <p>This is a website that clears all your doubts based on ayurvedic principles.</p>
+            <a href="#" class="btn">To know more</a>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h1 class="heading"> <span>About</span> Us </h1>
+        <div class="row">
+            <div class="video-contain">
+                <video src="video.mp4" loop autoplay muted></video>
+                <h3>Remedies</h3>
+            </div>
+            <div class="content">
+                <h3>Why choose us?</h3>
+                <p>This is a website that not only talks about ayurvedic content, but also allows you to interact with us through a chatbot. You can also purchase herbs here.</p>
+                <a href="#" class="btn">Learn more</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot Toggle Icon (Pink Comment Icon) -->
+    <div id="chatToggle">
+        <i class="fas fa-comment"></i>
+        <span class="chat-text">Chat with us</span>
+    </div>
+
+    <!-- Chatbot Box -->
+    <div id="chatbot">
+        <div class="msger-header">
+            Health Tips Bot
+            <!-- Close button -->
+            <button class="chat-close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="msger-chat"></div>
+        <form class="msger-inputarea">
+            <input type="text" class="msger-input" placeholder="Enter your message..." />
+            <button class="msger-send-btn" type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to toggle the chatbot display
+        function toggleChat() {
+            const chatSection = document.getElementById("chatbot");
+            chatSection.style.display = (chatSection.style.display === "none" || chatSection.style.display === "") ? "flex" : "none";
+        }
+
+        // Event listener for the comment icon to open/close chatbot
+        document.getElementById('chatToggle').addEventListener('click', toggleChat);
+
+        // Close button functionality to hide chatbot
+        document.querySelector('.chat-close-btn').addEventListener('click', function () {
+            document.getElementById('chatbot').style.display = 'none';
+        });
+
+        // Add event listener to the form for submitting messages
+        document.querySelector('.msger-inputarea').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            const input = document.querySelector('.msger-input');
+            const msgText = input.value.trim();
+
+            if (msgText) {
+                // Create user message
+                createMessage(msgText, "right");
+                input.value = ''; // Clear the input
+
+                // Generate a bot response based on user input
+                setTimeout(() => {
+                    const response = getChatbotResponse(msgText);
+                    createMessage(response, "left");
+                }, 1000); // Bot responds after 1 second
+            }
+        });
+
+        // Function to create messages
+        function createMessage(text, side) {
+            const msg = document.createElement("div");
+            msg.classList.add("msg", `${side}-msg`);
+
+            const msgBubble = document.createElement("div");
+            msgBubble.classList.add("msg-bubble");
+
+            const msgText = document.createElement("div");
+            msgText.classList.add("msg-text");
+            msgText.textContent = text;
+
+            const msgTime = document.createElement("div");
+            msgTime.classList.add("msg-time");
+            msgTime.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            msgBubble.appendChild(msgText);
+            msgBubble.appendChild(msgTime);
+            msg.appendChild(msgBubble);
+            document.querySelector('.msger-chat').appendChild(msg);
+            document.querySelector('.msger-chat').scrollTop = document.querySelector('.msger-chat').scrollHeight; // Scroll to bottom
+        }
+
+        // Function to generate a bot response based on user input
+        function getChatbotResponse(userMessage) {
+            const lowerCaseMessage = userMessage.toLowerCase();
+    
+            // Response logic
+            if (lowerCaseMessage.includes("tip")) {
+                const categories = Object.keys(tips);
+                const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+                const randomTip = tips[randomCategory][Math.floor(Math.random() * tips[randomCategory].length)];
+                return `Here's a tip on ${randomCategory}: ${randomTip}`;
+            } else if (lowerCaseMessage.includes("health")) {
+                return "Maintaining a balanced diet and regular exercise are key to good health!";
+            } else if (lowerCaseMessage.includes("hi") || lowerCaseMessage.includes("hello")) {
+                return "Hello! How can I assist you today?";
+            } else if (lowerCaseMessage.includes("thanks")) {
+                return "You're welcome! If you have more questions, feel free to ask.";
+            }else if (lowerCaseMessage.includes("food")) {
+                return "your diet should align with your dosha. Vata types should focus on warm, nourishing foods like soups and stews. Pitta types do well with cooling foods like salads and fruits, while Kapha types should eat light, spicy meals to stimulate digestion. Avoid processed and sugary foods, as they can disrupt balance";
+            }  else if (lowerCaseMessage.includes("hair loss")) {
+                return "For hair loss, consider including amla and curry leaves in your diet to help reduce it.";
+            }else if (lowerCaseMessage.includes("anxious")) {
+                return "Anxiety can be a sign of imbalanced Vata energy. Try grounding practices like slow breathing, meditation, or gentle yoga to calm your mind. Eating warm, nourishing foods and avoiding overstimulation, like too much caffeine, can also help";
+            }else if (lowerCaseMessage.includes("wellness program")) {
+                return "joining a wellness program can be a great step in maintaining your health. Look for programs that focus on balanced nutrition, regular physical activity, stress management,";
+            } else if (lowerCaseMessage.includes("digestion")) {
+                return "To support digestion, eat your largest meal at lunchtime, avoid cold drinks with meals, and add spices like ginger and cumin.";
+            } else if (lowerCaseMessage.includes("exercise") || lowerCaseMessage.includes("activity")) {
+                return "Aim for at least 30 minutes of physical activity every day!";
+            } else if (lowerCaseMessage.includes("yoga") || lowerCaseMessage.includes("morning routine")) {
+                return "Incorporate yoga or stretching in your morning routine for better energy throughout the day.";
+            } else if (lowerCaseMessage.includes("ayurveda")) {
+                return "Ayurveda can guide you with personalized lifestyle and dietary recommendations based on your body type, or dosha.";
+            } else if (lowerCaseMessage.includes("stress")) {
+                return "Managing stress is crucial. Try meditation or deep breathing exercises to relax.";
+            } else if (lowerCaseMessage.includes("skin care") || lowerCaseMessage.includes("healthy skin")) {
+                return "Keep your skin hydrated and eat a balanced diet rich in fruits and vegetables for healthy skin.";
+            } else if (lowerCaseMessage.includes("improve immunity")) {
+                return "Focus on a balanced diet, regular exercise, and consider herbs like turmeric and ginger to boost your immunity.";
+            } else if (lowerCaseMessage.includes("seasonal tips")) {
+                return "In winter, prioritize warm foods. In summer, opt for lighter meals with cooling ingredients like cucumber.";
+            } else if (lowerCaseMessage.includes("hydrated")) {
+                return "Drink warm or room temperature water, and add lemon or mint for extra flavor and benefits.";
+            } else if (lowerCaseMessage.includes("sleep")) {
+                return "Aim for 7-8 hours of sleep each night to maintain good health.";
+            } else {
+                return "I'm not sure how to help with that. Would you like some health tips? Just type 'tip' for advice.";
+            }
+        }
+        // Function to get a random tip from the tips object
+        function getRandomTip() {
+            const tips = {
+                "Reduce portion sizes": [
+                    "Drink a large glass of water 10 minutes before your meal to feel less hungry.",
+                    "Keep meat, chicken, turkey, and fish portions to about 3 ounces."
+                ],
+                "Be physically active": [
+                    "Turn up the music and dance while you clean.",
+                    "Walk while talking on the phone."
+                ],
+                "Make healthy food choices": [
+                    "Eat whole grains instead of white bread or pasta.",
+                    "Choose fruits and vegetables instead of chips or cookies."
+                ]
+            };
+
+            const categories = Object.keys(tips);
+            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+            const randomTip = tips[randomCategory][Math.floor(Math.random() * tips[randomCategory].length)];
+            return `Here's a tip on ${randomCategory}: ${randomTip}`;
+        }
+    </script>
+</body>
+</html>

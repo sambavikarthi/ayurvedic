@@ -1,0 +1,129 @@
+/* Global settings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Set video as background */
+#background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+/* Section and form-box styling */
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: rgba(0, 0, 0, 0.6); /* Optional semi-transparent background */
+}
+
+.form-box {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent form background */
+    padding: 40px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px); /* Adds blur to the background */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.forms-value h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.inputbox {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.inputbox ion-icon {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    color: #fff;
+}
+
+.inputbox input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.inputbox label {
+    position: absolute;
+    left: 40px;
+    top: 12px;
+    color: #fff;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.inputbox input:focus ~ label,
+.inputbox input:valid ~ label {
+    top: -10px;
+    left: 40px;
+    font-size: 0.8rem;
+    color: var(--pink);
+}
+
+.forget {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.forget a {
+    color: var(--pink);
+    text-decoration: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: var(--pink);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ff6f91;
+}
+
+.register p {
+    color: #fff;
+    text-align: center;
+}
+
+.register a {
+    color: var(--pink);
+    text-decoration: none;
+}
+
+.return a {
+    color: #fff;
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+
+:root {
+    --pink: #e84393;
+}
